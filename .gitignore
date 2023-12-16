@@ -1,3 +1,6 @@
 *.mp4
 __pycache__/
 .vscode
+data/initial_images/*
+data/zipped_files/*
+extracted_files/data/*
