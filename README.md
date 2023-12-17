@@ -4,6 +4,10 @@
 
 This repository contains a tool that enables users to convert various types of files into a compressed zip format, convert binary content of zip to images, images to video and upload it to YouTube. Additionally, users can download the video from YouTube and revert it to the original file format.
 
+## Sample Video
+
+![Sample Video](https://github.com/shantanutheone/youtube-as-data-store/tree/master/sample_video/sample.gif)
+
 ## Features
 
 ### 1. File Conversion and Compression
