@@ -36,15 +36,14 @@ The tool supports password protection, ensuring that only authorized users can a
 ### Prerequisites
 
 - Python 3.x
-- Required Python packages (list dependencies here)
-- YouTube API key (instructions on obtaining and setting up API key)
+- Required Python packages (Pillow)
 
 ### Installation
 
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/youtube-as-data-store.git
+   git clone https://github.com/shantanutheone/youtube-as-data-store.git
    cd youtube-as-data-store
 
 
