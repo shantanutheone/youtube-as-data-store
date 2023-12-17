@@ -3,34 +3,30 @@ import os
 import ffmpeg
 import numpy as np
 
-def images_to_video(input_folder, output_folder, output_video):
-    # Get a list of all image files in the folder
-    image_files = [f for f in os.listdir(input_folder) if f.endswith('.png')]
+def images_to_video(input_folder, output_video_path, fps=30):
+    # Get the list of image files in the input folder
+    image_files = [file for file in os.listdir(input_folder) if file.endswith(".png")]
 
-    # Sort the files based on their names (assuming they are named sequentially)
-    image_files.sort(key=lambda x: int(x.split('.')[0]))
+    # Sort the image files to maintain order
+    image_files.sort()
 
     # Get the dimensions of the first image
-    first_image = cv2.imread(os.path.join(input_folder, image_files[0]))
-    height, width, layers = first_image.shape
+    first_image_path = os.path.join(input_folder, image_files[0])
+    first_image = cv2.imread(first_image_path)
+    height, width, _ = first_image.shape
 
-    # Create the output folder if it doesn't exist
-    os.makedirs(output_folder, exist_ok=True)
+    # Create a VideoWriter object
+    fourcc = 0  # Uncompressed Video
+    video_writer = cv2.VideoWriter(output_video_path, fourcc, fps, (width, height))
 
-    # Create a VideoWriter object with a fixed frame rate of 24 fps
-    video_path = os.path.join(output_folder, output_video)
-    video = cv2.VideoWriter(video_path, cv2.VideoWriter_fourcc(*'raw '), 24, (width, height))
-
-
-    # Iterate through each image file and write to the video
+    # Iterate through each image file and write frames to the video
     for image_file in image_files:
         image_path = os.path.join(input_folder, image_file)
-        img = cv2.imread(image_path)
-        video.write(img)
+        frame = cv2.imread(image_path)
+        video_writer.write(frame)
 
-    # Release the VideoWriter
-    video.release()
-
+    # Release the VideoWriter object
+    video_writer.release()
 
 def video_to_images(input_video, output_folder):
     # Extract frame unit16 arrays from the video

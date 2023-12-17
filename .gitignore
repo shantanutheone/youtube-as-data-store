@@ -4,3 +4,4 @@ __pycache__/
 data/initial_images/*
 data/zipped_files/*
 extracted_files/data/*
+videos/*
