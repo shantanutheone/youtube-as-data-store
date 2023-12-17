@@ -6,7 +6,8 @@ This repository contains a tool that enables users to convert various types of f
 
 ## Sample Video
 
-![Sample Video](https://github.com/shantanutheone/youtube-as-data-store/tree/master/sample_video/sample.gif)
+![Sample Video](https://raw.githubusercontent.com/shantanutheone/youtube-as-data-store/master/sample_video/sample.gif)
+
 
 ## Features
 
