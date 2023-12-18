@@ -53,6 +53,16 @@ def binary_to_images(binary_content, output_folder):
         output_image_path = f'{output_folder}/page_{page_number + 1}.png'
         image.save(output_image_path)
 
+def almost_white(pixel_value):
+    if(pixel_value[0] < 20 and pixel_value[1] < 20 and pixel_value[2] < 20):
+        return True
+    return False
+
+def almost_black(pixel_value):
+    if(pixel_value[0] > 200 and pixel_value[1] > 200 and pixel_value[2] > 200):
+            return True
+    return False
+
 def images_to_binary(input_folder, resolution=8):
     # Initialize an empty string to store concatenated binary content
     concatenated_binary = ""
@@ -61,7 +71,7 @@ def images_to_binary(input_folder, resolution=8):
     image_files = [file for file in os.listdir(input_folder) if file.endswith(".png")]
 
     # Sort the image files to maintain order
-    image_files.sort()
+    image_files.sort(key=lambda x: int(x.split("_")[1].split(".")[0]))
 
     # Iterate through each image file
     for image_file in image_files:
@@ -77,14 +87,36 @@ def images_to_binary(input_folder, resolution=8):
                 for block_x in range(0, img.width, resolution):
                     # Extract the first bit (0 or 1) from the pixel color of the top-left pixel in the block
                     pixel_color = pixels[block_x, block_y]
-
+                    # print(pixel_color)
                     # Skip grey pixels and consider only black and white
-                    if pixel_color == (0, 0, 0) or pixel_color == (255, 255, 255):
-                        bit_value = '1' if pixel_color == (255, 255, 255) else '0'
-                        concatenated_binary += bit_value
+                    if(almost_white(pixel_color)):
+                        concatenated_binary += "0"
+                    elif(almost_black(pixel_color)):
+                        concatenated_binary += "1"
 
     return concatenated_binary
 
+def image_to_binary(image_path, resolution=8):
+    # Initialize an empty string to store binary content
+    binary_content = ""
+
+    # Open the image and get pixel data
+    with Image.open(image_path) as img:
+        pixels = img.load()
+
+        # Iterate through each block of pixels in the image
+        for block_y in range(0, img.height, resolution):
+            for block_x in range(0, img.width, resolution):
+                # Extract the first bit (0 or 1) from the pixel color of the top-left pixel in the block
+                pixel_color = pixels[block_x, block_y]
+
+                # Skip grey pixels and consider only black and white
+                if almost_white(pixel_color):
+                    binary_content += "0"
+                elif almost_black(pixel_color):
+                    binary_content += "1"
+
+    return binary_content
 
 def binary_to_zip_file(binary_string, output_zip_file):
     # Convert binary string to bytes
