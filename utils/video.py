@@ -8,7 +8,7 @@ def images_to_video(input_folder, output_video_path, fps=30):
     image_files = [file for file in os.listdir(input_folder) if file.endswith(".png")]
 
     # Sort the image files to maintain order
-    image_files.sort()
+    image_files.sort(key=lambda x: int(x.split("_")[1].split(".")[0]))
 
     # Get the dimensions of the first image
     first_image_path = os.path.join(input_folder, image_files[0])
@@ -21,6 +21,7 @@ def images_to_video(input_folder, output_video_path, fps=30):
 
     # Iterate through each image file and write frames to the video
     for image_file in image_files:
+        print(image_file)
         image_path = os.path.join(input_folder, image_file)
         frame = cv2.imread(image_path)
         video_writer.write(frame)
@@ -28,32 +29,32 @@ def images_to_video(input_folder, output_video_path, fps=30):
     # Release the VideoWriter object
     video_writer.release()
 
-def video_to_images(input_video, output_folder):
-    # Extract frame unit16 arrays from the video
-    ffmpeg_executable = r"C:\\ffmpeg\\bin\\ffmpeg.exe"
-    # Extract frame unit16 arrays from the video
-    def extract_frame(input_vid, frame_num):
-        try:
-            out, _ = (
-                ffmpeg
-                .input(input_vid, executable=ffmpeg_executable)
-                .filter_('select', 'gte(n,{})'.format(frame_num))
-                .output('pipe:', format='rawvideo', pix_fmt='gray16le', vframes=1)
-                .run(capture_stdout=True, capture_stderr=True)
-            )
-            return np.frombuffer(out, np.uint16).reshape([720, 1280])
-        except ffmpeg._run.Error as e:
-            print(f"ffmpeg error: {e.stderr.decode('utf-8')}")
-
-    # Get the total number of frames in the video
-    total_frames = 3  # Replace with the actual total number of frames
-
-    # Create the output folder if it doesn't exist
+def video_to_images(input_video_path, output_folder):
+    # Create output folder if it doesn't exist
     os.makedirs(output_folder, exist_ok=True)
 
-    # Iterate through each frame and save it as an image
-    for i in range(total_frames):
-        frame = extract_frame(input_video, i)
-        frame_name = f"{i + 1}.png"
-        frame_path = os.path.join(output_folder, frame_name)
-        cv2.imwrite(frame_path, frame)
+    # Open the video file
+    cap = cv2.VideoCapture(input_video_path)
+
+    # Get video properties
+    fps = int(cap.get(cv2.CAP_PROP_FPS))
+    width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+    # Read and save each frame
+    frame_count = 0
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        # Save the frame as an image
+        image_path = os.path.join(output_folder, f'page_{frame_count + 1}.png')
+        cv2.imwrite(image_path, frame)
+
+        frame_count += 1
+
+    # Release the video capture object
+    cap.release()
+
+    print(f"Extracted {frame_count} frames from the video.")
