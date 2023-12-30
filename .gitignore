@@ -3,6 +3,10 @@ __pycache__/
 .vscode
 data/initial_images/*
 data/extracted_images/*
+data/extracted_files/*
+data/database/*
 data/zipped_files/*
 extracted_files/data/*
-videos/*
+data/videos/*
+upload/*
+.env
