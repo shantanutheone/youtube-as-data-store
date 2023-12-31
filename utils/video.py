@@ -21,7 +21,7 @@ def images_to_video(input_folder, output_video_path, fps=30):
 
     # Iterate through each image file and write frames to the video
     for image_file in image_files:
-        print(image_file)
+        # print(image_file)
         image_path = os.path.join(input_folder, image_file)
         frame = cv2.imread(image_path)
         video_writer.write(frame)
