@@ -1,6 +1,5 @@
 import zipfile
 import binascii
-from utils.encryption import *
 
 def file_to_zip(input_file_path, output_zip_path):
     with zipfile.ZipFile(output_zip_path, 'w') as zip_file:
@@ -25,13 +24,22 @@ def convert_binary_to_zip(binary_content, output_zip_path):
     with open(output_zip_path, 'wb') as zip_file:
         zip_file.write(bytes_data)
 
-def convert_file_to_binary(file_path, password):
-    file_name = file_path.split("/")[-1].split(".")[0]
-    zip_file_path = f"data/zipped_files/{file_name}.zip"
-    file_to_zip(file_path, zip_file_path)
-    #TODO: Create Encrypted ZIP File and Return it's binary
-    # encrypted_zip_file_path = f"data/zipped_files/{file_name}_encrypted.zip"
-    # encrypt_zip(zip_file_path, encrypted_zip_file_path, password)
+def convert_file_to_binary(file_name, password):
+    file_path = f"upload/{file_name}"
+    print(file_path)
+    file_name = file_name.split(".")[0]
+    if(password):
+        # Create Suite
+        from utils.encryption import generate_cipher_suite, encrypt_file
+        cipher_suite = generate_cipher_suite(password)
+        # Convert to Encrypted Zip
+        encrypt_file(file_path, cipher_suite, "data/zipped_files/")
+        zip_file_path = f"data/zipped_files/{file_name}.zip.encrypted"
+        file_to_zip(file_path, zip_file_path)
+    else:
+        zip_file_path = f"data/zipped_files/{file_name}.zip"
+        file_to_zip(file_path, zip_file_path)
+        
     binary_string = zip_to_binary_format(zip_file_path)
     return binary_string
 
