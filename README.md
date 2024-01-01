@@ -4,9 +4,17 @@
 
 This repository contains a tool that enables users to convert various types of files into a compressed zip format, convert binary content of zip to images, images to video and upload it to YouTube. Additionally, users can download the video from YouTube and revert it to the original file format.
 
+## Architecture
+
+### 1. Store File
+![Store File](https://raw.githubusercontent.com/shantanutheone/youtube-as-data-store/master/sample_images/store_file.png)
+
+### 2. Download File
+![Download File](https://raw.githubusercontent.com/shantanutheone/youtube-as-data-store/master/sample_images/download_file.png)
+
 ## Sample Video
 
-![Sample Video](https://raw.githubusercontent.com/shantanutheone/youtube-as-data-store/master/sample_video/sample.gif)
+![Sample Video](https://raw.githubusercontent.com/shantanutheone/youtube-as-data-store/master/sample_images/sample.gif)
 
 
 ## Features
@@ -53,7 +61,9 @@ The tool supports password protection, ensuring that only authorized users can a
   - [x] Use PNG format for images
   - [x] Use AVI (uncompressed) format so that youtube default compaction won't affect the content
 
-- [ ]  **Password Protection**
-  - [ ] Password protect files before conversion to zip.
-  - [ ] Implement password validation during the restoration process.
-  - [ ] Option to change/update the password.
+- [x]  **Password Protection**
+  - [x] Password protect files before conversion to zip.
+
+- [ ]  **Local Database**
+  - [ ] User should be able to upload in any folder under their drive.
+  - [ ] Provide heirarchy to view all files uploaded till now.
