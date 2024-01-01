@@ -14,6 +14,8 @@ This repository contains a tool that enables users to convert various types of f
 
 ## Sample Video
 
+[Youtube as Data Store Sample Video](https://youtu.be/Oulo_bnsgKc)
+
 ![Sample Video](https://raw.githubusercontent.com/shantanutheone/youtube-as-data-store/master/sample_images/sample.gif)
 
 
