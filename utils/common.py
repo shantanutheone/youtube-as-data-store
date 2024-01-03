@@ -1,4 +1,6 @@
 import os
+import hashlib
+
 def empty_folder(folder_path):
     try:
         # Get a list of all files in the folder
@@ -29,7 +31,7 @@ def add_to_db(folder, file_name, yt_video_name, video_url, password):
     path = folder + "/" + file_name
     append_row_to_csv("data/database/info.csv", [path, yt_video_name, video_url, password])
 
-import hashlib
+
 
 def generate_md5(input_string):
     # Create an MD5 hash object

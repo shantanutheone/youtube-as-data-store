@@ -2,7 +2,7 @@ from utils.zip import *
 from utils.images import *
 from utils.video import *
 from utils.encryption import *
-from utils.youtube import upload_to_youtube
+from utils.youtube import upload_video
 from dotenv import load_dotenv
 from utils.common import empty_folder, add_to_db, generate_md5
 import os
@@ -17,13 +17,10 @@ password = "<password>"
 # binary_to_images(binary_string, "data/initial_images/")
 # # # Make Video with Binary Images
 # images_to_video("data/initial_images/", "data/videos/output_video.avi")
-# #TODO: Get API key from .env
-api_key = os.getenv("API_KEY")
-#TODO:  Upload to Youtube with your own key
+
 yt_video_name = generate_md5(file_name)
-video_url = upload_to_youtube("data/videos/output_video.avi", yt_video_name, api_key)
-#TODO: Store Information to Local Database
-add_to_db(folder, file_name, yt_video_name, video_url, password)
+video_id = upload_video("data/videos/output_video.avi", yt_video_name)
+add_to_db(folder, file_name, yt_video_name, video_id, password)
 
 # Extract Image back from Video
 # TODO: Clean extracted_images folder first
